@@ -31,6 +31,7 @@ public class NettyConfiguration {
 		.channel(NioServerSocketChannel.class)
 		.option(ChannelOption.SO_BACKLOG, 1024)
 		.option(ChannelOption.SO_KEEPALIVE, true)
+		.option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 3000)
 		.childHandler(channelInitializer);
 		return bootstrap;
 	}
