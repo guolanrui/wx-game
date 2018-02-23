@@ -1,14 +1,16 @@
-package org.server.websocket.core.entity;
+package org.server.websocket.core;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.server.websocket.core.entity.House;
+
 import io.netty.channel.ChannelHandlerContext;
 
-public class GameSystem {
+public class GameCore {
 	
-	private final static AtomicInteger count = new AtomicInteger(1000);
 
 	/**
 	 * 游戏房间集合
@@ -21,7 +23,7 @@ public class GameSystem {
 	 * @return
 	 */
 	public static String createHouse(ChannelHandlerContext master) {
-		String houseId = String.valueOf(count.incrementAndGet());
+		String houseId = String.valueOf(UUID.randomUUID().toString());
 		House house = new House();
 		house.setMaster(master).setHouseId(houseId);
 		houseMap.put(houseId, house);
@@ -29,7 +31,7 @@ public class GameSystem {
 	}
 	
 	public static String quitHouse(String houseId,ChannelHandlerContext user) {
-		count.decrementAndGet();
+		
 		House house = houseMap.get(houseId);
 		
 		return houseId;
@@ -41,7 +43,6 @@ public class GameSystem {
 	 * @return
 	 */
 	public static boolean dissolveHouse(String houseId) {
-		count.decrementAndGet();
 		return houseMap.remove(houseId) == null ? false : true;
 	}
 	
